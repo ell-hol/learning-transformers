@@ -18,17 +18,17 @@ from torch.utils.data import DataLoader, Dataset
 
 SEED = 42
 
-TRAIN_STORIES = 100_000
-VAL_STORIES = 1_000
+TRAIN_STORIES = 1_000_000
+VAL_STORIES = 10_000
 
 VOCAB_SIZE = 8_192
 TOKENIZER_DIR = Path("tinystories_tokenizer_8k")
 TOKEN_CACHE_DIR = Path("token_cache")
 EOS_TOKEN = "<|endoftext|>"
 
-SEQ_LEN = 256
-MICRO_BATCH_SIZE = 8
-GRAD_ACCUM_STEPS = 4
+SEQ_LEN = 513
+MICRO_BATCH_SIZE = 64
+GRAD_ACCUM_STEPS = 1
 # 8 * 256 * 4 = 8192 tokens / optimizer update.
 
 NUM_EPOCHS = 10
@@ -1304,7 +1304,7 @@ def main():
     # Device
     # --------------------------------------------------------
 
-    device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    device = torch.device("cuda")
 
     print(f"device: {device}")
     print(f"PyTorch: {torch.__version__}")
